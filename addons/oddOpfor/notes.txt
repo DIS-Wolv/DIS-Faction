@@ -1,0 +1,1 @@
+vehicles may misbehave due to changing commander and gunner to those from the faction. 

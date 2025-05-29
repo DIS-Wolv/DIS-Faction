@@ -1,3 +1,5 @@
 ._*
 *.pbo
 *.pbo.bak
+@*
+*.bisign

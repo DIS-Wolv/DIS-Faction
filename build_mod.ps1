@@ -36,8 +36,16 @@ ForEach ($file in $fileToAdd) {
 $destinationDir = "$(Get-Location)\$ModName\addons\"
 ForEach ($dir in (Get-ChildItem -Path ".\addons" -Directory)) {
 	write-Output "Processing directory: $($dir.name)"
+	
 	$sourcePath = "$(Get-Location)\addons\$($dir.name)"
-	& $AddonBuilderPath $sourcePath $destinationDir -packonly -sign="$KeyFolder\dis.biprivatekey" -toolsDirectory="$A3ToolsPath"
+	if (Test-Path -Path (".\addons\$($dir.name)\"+'$PREFIX$')) {
+		$prefix = Get-Content -Path (".\addons\$($dir.name)\"+'$PREFIX$') -First 1
+		& $AddonBuilderPath $sourcePath $destinationDir -packonly -sign="$KeyFolder\dis.biprivatekey" -toolsDirectory="$A3ToolsPath" -prefix=$prefix
+	}
+	else {
+		write-Output "No prefix file found in $($dir.name), using default settings."
+		& $AddonBuilderPath $sourcePath $destinationDir -packonly -sign="$KeyFolder\dis.biprivatekey" -toolsDirectory="$A3ToolsPath"
+	}
 }
 
 # create the key file
